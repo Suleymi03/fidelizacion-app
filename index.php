@@ -1,0 +1,1 @@
+<?php echo 'Bienvenido al programa de fidelización'; ?>
