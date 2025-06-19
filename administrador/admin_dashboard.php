@@ -81,7 +81,7 @@ if (!isset($_SESSION['admin'])) {
     <a href="admin_beneficios.php" class="btn">🏢 Gestión de Beneficios</a>
 
     <div class="logout">
-      <a href="admin_logout.php" class="btn">Cerrar sesión</a>
+      <a href="admin_login.php" class="btn">Cerrar sesión</a>
     </div>
   </div>
 
