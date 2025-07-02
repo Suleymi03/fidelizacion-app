@@ -2,7 +2,6 @@
 session_start();
 include "includes/db.php";
 
-// Si no ha iniciado sesión, redirige al login
 if (!isset($_SESSION['telefono'])) {
     header("Location: login.php");
     exit();
@@ -10,23 +9,12 @@ if (!isset($_SESSION['telefono'])) {
 
 $telefono = $_SESSION['telefono'];
 
-// Obtener datos del cliente
 $sqlCliente = "SELECT * FROM clientes WHERE telefono = ?";
 $stmt = $conn->prepare($sqlCliente);
 $stmt->bind_param("s", $telefono);
 $stmt->execute();
 $result = $stmt->get_result();
 $cliente = $result->fetch_assoc();
-
-// Obtener premios
-$premios = $conn->query("SELECT nombre, puntos_requeridos FROM premios");
-
-// Obtener beneficios
-$beneficios = $conn->query("SELECT empresa, descripcion FROM beneficios");
-
-if (!$beneficios) {
-    die("Error en la consulta de beneficios: " . $conn->error);
-}
 ?>
 
 <!DOCTYPE html>
@@ -50,24 +38,40 @@ if (!$beneficios) {
       box-shadow: 0 0 10px #FFD700;
     }
 
+    .header h1 {
+      margin: 0;
+    }
+
+    .logout {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
     .content {
       padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
     }
 
-    h1, h2 {
-      color: #FFD700;
+    .box {
+      width: 90%;
+      max-width: 600px;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border: 2px solid #FFD700;
+      border-radius: 15px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 0 15px #FFD700;
+      transition: transform 0.3s;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-
-    table th, table td {
-      border: 1px solid #FFD700;
-      padding: 10px;
-      text-align: left;
+    .box:hover {
+      transform: scale(1.03);
+      background-color: #222;
     }
 
     .btn {
@@ -85,11 +89,6 @@ if (!$beneficios) {
       background-color: #e6c200;
     }
 
-    .logout {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
   </style>
 </head>
 <body>
@@ -101,33 +100,15 @@ if (!$beneficios) {
 </div>
 
 <div class="content">
-  <h2>🎁 Premios Disponibles</h2>
-  <table>
-    <tr>
-      <th>Premio</th>
-      <th>Puntos necesarios</th>
-    </tr>
-    <?php while ($row = $premios->fetch_assoc()): ?>
-      <tr>
-        <td><?= htmlspecialchars($row['nombre']) ?></td>
-        <td><?= $row['puntos_necesarios'] ?></td>
-      </tr>
-    <?php endwhile; ?>
-  </table>
+  <div class="box" onclick="location.href='premios/premios.php'">
+    <h2>🎁 Premios Disponibles</h2>
+    <p>Revisa los premios que puedes canjear con tus puntos.</p>
+  </div>
 
-  <h2>🤝 Beneficios con Empresas</h2>
-  <table>
-    <tr>
-      <th>Empresa</th>
-      <th>Descripción</th>
-    </tr>
-    <?php while ($row = $beneficios->fetch_assoc()): ?>
-      <tr>
-        <td><?= htmlspecialchars($row['nombre_empresa']) ?></td>
-        <td><?= htmlspecialchars($row['descripcion']) ?></td>
-      </tr>
-    <?php endwhile; ?>
-  </table>
+  <div class="box" onclick="location.href='beneficios/beneficios.php'">
+    <h2>🤝 Beneficios con Empresas</h2>
+    <p>Descubre los beneficios que tienes por ser parte del club.</p>
+  </div>
 
   <a href="tarjeta_digital.php" class="btn">Ver Mi Tarjeta Digital</a>
 </div>
