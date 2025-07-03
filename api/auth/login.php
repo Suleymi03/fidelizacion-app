@@ -15,6 +15,7 @@ if (isset($data['telefono']) && isset($data['contrasena'])) {
 
     if ($cliente = $result->fetch_assoc()) {
         if (password_verify($pass, $cliente['contrasena'])) {
+            unset($cliente['contrasena']); // Oculta la contraseña
             echo json_encode(["mensaje" => "Login exitoso", "cliente" => $cliente]);
         } else {
             echo json_encode(["error" => "Contraseña incorrecta"]);
