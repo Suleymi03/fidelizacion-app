@@ -96,7 +96,7 @@ $cliente = $result->fetch_assoc();
 <div class="header">
   <h1>¡Hola, <?= htmlspecialchars($cliente['nombre']) ?>!</h1>
   <p>Tus puntos acumulados: <strong><?= $cliente['puntos'] ?> pts</strong></p>
-  <a href="logout.php" class="btn logout">Cerrar sesión</a>
+  <a href="login.php" class="btn logout">Cerrar sesión</a>
 </div>
 
 <div class="content">

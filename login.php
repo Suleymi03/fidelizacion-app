@@ -117,10 +117,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php if ($clienteValidado): ?>
 <div id="voiceModal" style="display: flex;">
   <div class="box">
-    <h2>🔊 Verificación por Voz</h2>
+    <h2>Verificación por Voz</h2>
     <p>Repite la siguiente palabra:</p>
     <h3 id="palabraMostrar" style="color:#FFD700;"></h3>
-    <button onclick="reconocerVoz()">🎤 Activar micrófono</button>
+    <button onclick="reconocerVoz()">Activar micrófono</button>
     <p id="mensajeVoz"></p>
   </div>
 </div>
@@ -148,15 +148,15 @@ window.onload = function() {
         const esperado = palabraCorrecta.toLowerCase().trim();
 
         if (texto === esperado) {
-          mensajeVoz.textContent = "✅ Verificación exitosa. Redirigiendo...";
+          mensajeVoz.textContent = "Verificación exitosa. Redirigiendo...";
           setTimeout(() => window.location.href = "dashboard_user.php", 1500);
         } else {
-          mensajeVoz.textContent = "❌ Palabra incorrecta. Intenta de nuevo.";
+          mensajeVoz.textContent = "Palabra incorrecta. Intenta de nuevo.";
         }
       };
 
       recognition.onerror = function(event) {
-        mensajeVoz.textContent = "⚠️ Error de reconocimiento: " + event.error;
+        mensajeVoz.textContent = "Error de reconocimiento: " + event.error;
         console.error("Error:", event.error);
       };
 
