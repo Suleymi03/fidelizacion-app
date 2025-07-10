@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.9);
-      color: #fff;
+      color: #FFD700 ;
       z-index: 999;
       justify-content: center;
       align-items: center;
@@ -116,11 +116,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- Modal para la verificación por voz -->
 <?php if ($clienteValidado): ?>
 <div id="voiceModal" style="display: flex;">
-  <div class="box">
+  <div class="box" style="position: relative;">
+    <span id="cerrarModal" style="position: absolute; top: 10px; right: 15px; font-size: 22px; cursor: pointer;">✖</span>
     <h2>Verificación por Voz</h2>
-    <p>Repite la siguiente palabra:</p>
+    <p>Di la siguiente palabra en voz alta:</p>
     <h3 id="palabraMostrar" style="color:#FFD700;"></h3>
-    <button onclick="reconocerVoz()">Activar micrófono</button>
+    <button onclick="reconocerVoz()">🎙️ Activar micrófono</button>
     <p id="mensajeVoz"></p>
   </div>
 </div>
@@ -148,10 +149,10 @@ window.onload = function() {
         const esperado = palabraCorrecta.toLowerCase().trim();
 
         if (texto === esperado) {
-          mensajeVoz.textContent = "Verificación exitosa. Redirigiendo...";
+          mensajeVoz.textContent = "✅Verificación exitosa. Redirigiendo...";
           setTimeout(() => window.location.href = "dashboard_user.php", 1500);
         } else {
-          mensajeVoz.textContent = "Palabra incorrecta. Intenta de nuevo.";
+          mensajeVoz.textContent = "❌Palabra incorrecta. Intenta de nuevo.";
         }
       };
 
@@ -163,6 +164,14 @@ window.onload = function() {
       recognition.start();
     };
   }
+  const cerrarModal = document.getElementById("cerrarModal");
+const voiceModal = document.getElementById("voiceModal");
+
+if (cerrarModal && voiceModal) {
+  cerrarModal.addEventListener("click", () => {
+    voiceModal.style.display = "none";
+  });
+}
 };
 </script>
 
