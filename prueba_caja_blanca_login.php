@@ -1,55 +1,91 @@
 <?php
-// prueba_caja_blanca_login.php
-// Simulación de la lógica de login.php para pruebas de caja blanca SIN modificar login.php
+// caja_blanca_login.php
 
-// Simulamos "datos" que vendrían de la base de datos
-$usuariosSimulados = [
-    '5551234567' => ['contrasena' => password_hash('password123', PASSWORD_DEFAULT)],
-    '9998887777' => ['contrasena' => password_hash('claveSecreta', PASSWORD_DEFAULT)],
-];
+echo "=============================================================\n";
+echo "    INFORME DE PRUEBAS DE LOGIN (CAJA BLANCA SIMULADA)\n";
+echo "=============================================================\n\n";
 
-// Función que simula la lógica principal de login.php
-function loginCajaBlanca($telefono, $contrasena, $usuarios) {
-    if (!isset($usuarios[$telefono])) {
-        return ['exito' => false, 'mensaje' => '❌ Usuario no encontrado.'];
-    }
-    $hashContrasena = $usuarios[$telefono]['contrasena'];
-    if (!password_verify($contrasena, $hashContrasena)) {
-        return ['exito' => false, 'mensaje' => '❌ Contraseña incorrecta.'];
-    }
-    return ['exito' => true, 'mensaje' => '✔ Usuario validado correctamente.'];
-}
-
-// Casos de prueba
 $tests = [
-    ['Usuario válido, contraseña correcta', '5551234567', 'password123', true, '✔ Usuario validado correctamente.'],
-    ['Usuario válido, contraseña incorrecta', '5551234567', 'malacontra', false, '❌ Contraseña incorrecta.'],
-    ['Usuario no existente', '0000000000', 'cualquiera', false, '❌ Usuario no encontrado.'],
+    [
+        'nombre' => 'Credenciales válidas',
+        'usuario' => 'admin',
+        'password' => '12345',
+        'esperado' => true
+    ],
+    [
+        'nombre' => 'Usuario vacío',
+        'usuario' => '',
+        'password' => '12345',
+        'esperado' => false
+    ],
+    [
+        'nombre' => 'Contraseña vacía',
+        'usuario' => 'admin',
+        'password' => '',
+        'esperado' => false
+    ],
+    [
+        'nombre' => 'Usuario y contraseña incorrectos',
+        'usuario' => 'otro',
+        'password' => 'otro',
+        'esperado' => false
+    ]
 ];
 
-// Ejecutar pruebas
-$results = [];
-foreach ($tests as list($desc, $tel, $pass, $expExito, $expMsg)) {
-    $res = loginCajaBlanca($tel, $pass, $usuariosSimulados);
-    $paso = ($res['exito'] === $expExito) && ($res['mensaje'] === $expMsg);
-    $results[] = [
-        'test' => $desc,
-        'esperado' => $expMsg,
-        'resultado' => $res['mensaje'],
-        'estado' => $paso ? 'PASÓ' : 'FALLÓ',
-    ];
+// Simulamos tu lógica interna de login (puedes ajustar esto)
+function login($usuario, $password) {
+    // Aquí se simula la lógica que podrías tener en login.php
+    $usuario_valido = 'admin';
+    $password_valida = '12345';
+
+    if (empty($usuario) || empty($password)) {
+        return false;
+    }
+
+    if ($usuario === $usuario_valido && $password === $password_valida) {
+        return true;
+    }
+
+    return false;
 }
 
-// Mostrar resultados
-echo str_repeat('=', 70) . "\n";
-echo str_pad("PRUEBAS DE CAJA BLANCA - login.php (Simulado)", 70, " ", STR_PAD_BOTH) . "\n";
-echo str_repeat('=', 70) . "\n\n";
+// Variables para el resumen
+$pasadas = 0;
+$fallidas = 0;
+$inicio = microtime(true);
 
-foreach ($results as $r) {
-    echo "Test: {$r['test']}\n";
-    echo "Esperado: {$r['esperado']}\n";
-    echo "Resultado: {$r['resultado']}\n";
-    echo "Estado: {$r['estado']}\n";
-    echo str_repeat('-', 70) . "\n";
+// Proceso de pruebas
+foreach ($tests as $test) {
+    $inicioCaso = microtime(true);
+    $resultado = login($test['usuario'], $test['password']);
+    $duracion = microtime(true) - $inicioCaso;
+
+    $estado = ($resultado === $test['esperado']) ? 'PASÓ' : 'FALLÓ';
+    if ($estado === 'PASÓ') {
+        $pasadas++;
+    } else {
+        $fallidas++;
+    }
+
+    $texto = ($resultado) ? 'sí' : 'no';
+
+    printf(
+        "%-30s %-8s %-10s %-6s %.6f   %s\n",
+        $test['nombre'],
+        $test['esperado'] ? 'true' : 'false',
+        $resultado ? 'true' : 'false',
+        $texto,
+        $duracion,
+        $estado
+    );
 }
-?>
+
+$tiempoTotal = microtime(true) - $inicio;
+
+echo "\n=============================================================\n";
+echo "Total pruebas realizadas: " . count($tests) . "\n";
+echo "Pruebas PASÓ: $pasadas\n";
+echo "Pruebas FALLÓ: $fallidas\n";
+echo "Tasa de éxito: " . round(($pasadas / count($tests)) * 100, 2) . "%\n";
+echo "Tiempo total de tests: " . number_format($tiempoTotal, 6) . "s\n";
+echo "=============================================================\n";
