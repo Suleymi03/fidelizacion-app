@@ -33,6 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <title>Inicio de Sesión</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0066cc">
   <style>
     body {
       background: #000;
@@ -173,6 +175,12 @@ if (cerrarModal && voiceModal) {
   });
 }
 };
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('Service Worker registrado'))
+    .catch(err => console.error('Error registrando SW:', err));
+}
 </script>
 
 </body>
