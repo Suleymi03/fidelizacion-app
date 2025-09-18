@@ -1,7 +1,7 @@
 {
   "name": "Fidelización App",
   "short_name": "FidelApp",
-  "start_url": "./index.html",
+  "start_url": "./login.php",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
