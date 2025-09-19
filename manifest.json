@@ -1,5 +1,5 @@
 {
-  "name": "Fidelización App",
+  "name": "fidelizacion-app",
   "short_name": "FidelApp",
   "start_url": "./login.php",
   "scope": "./",
