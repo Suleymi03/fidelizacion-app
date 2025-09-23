@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fidelización App</title>
+
+  <!-- Enlace al manifest.json -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Colores para PWA -->
+  <meta name="theme-color" content="#0066cc">
+
+  <!-- Icono para navegadores -->
+  <link rel="icon" href="/icons/icon-192.png" type="icon/png">
+</head>
+<body>
+  <h1>Bienvenido a Fidelización App</h1>
+  <p>Esta es la página principal de la PWA.</p>
+
+  <!-- Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("Service Worker registrado"))
+        .catch((err) => console.log("Error en SW:", err));
+    }
+  </script>
+</body>
+</html>

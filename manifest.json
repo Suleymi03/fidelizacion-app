@@ -1,11 +1,11 @@
 {
-  "name": "fidelizacion-app",
+  "name": "Fidelización App",
   "short_name": "FidelApp",
-  "start_url": "./login.php",
+  "start_url": "/fidelizacion-app/index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#0066cc",
   "description": "Aplicación de fidelización con puntos, premios y beneficios.",
   "icons": [
